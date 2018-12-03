@@ -17,10 +17,11 @@ io.on('connection', (client) => {
         client.broadcast.in(usuario.sala).emit('listaPersonas',usuarios.getPersonasPorSala(usuario.sala));
     })
 
-    client.on('crearMensaje',(data)=>{
+    client.on('crearMensaje',(data,callback)=>{
         let persona = usuarios.getPersona(client.id);
         let mensaje = crearMensaje(persona.nombre,data.msg);
         client.broadcast.in(persona.sala).emit('crearMensaje',mensaje);
+        callback(mensaje);
     })
 
     client.on('disconnect',()=>{
